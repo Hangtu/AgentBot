@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Pre-push: verify build passes. Remove this file if it's too slow for your workflow.
+npm run build

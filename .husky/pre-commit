@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Pre-commit: lint-staged (prettier + eslint) + typecheck. If anything fails, commit is aborted.
+npx lint-staged
+npm run typecheck

@@ -38,7 +38,15 @@ const withClerk = clerkMiddleware(async (auth, req) => {
 export default function middleware(req: NextRequest, event: NextFetchEvent) {
   const { pathname } = req.nextUrl;
 
-  // Skip locale processing for API and monitoring routes
+  // Skip locale processing and auth for webhook/API routes that handle their own auth
+  if (
+    pathname.startsWith("/api/v1/webhook") ||
+    pathname.startsWith("/api/webhooks")
+  ) {
+    return NextResponse.next();
+  }
+
+  // Skip locale processing for other API and monitoring routes
   if (pathname.startsWith("/api") || pathname.startsWith("/monitoring")) {
     return withClerk(req, event);
   }

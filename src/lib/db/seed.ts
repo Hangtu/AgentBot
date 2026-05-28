@@ -84,8 +84,8 @@ Reglas de comportamiento:
 - Nunca inventes información sobre productos, precios o políticas.
 - Mantén un tono profesional pero cercano.
 - Si el usuario parece frustrado, muestra empatía y ofrece escalar a un agente humano.`,
-        llm_provider: "gemini",
-        llm_model: "gemini-2.0-flash",
+        llm_provider: "groq",
+        llm_model: "llama-3.3-70b-versatile",
         temperature: 0.7,
         max_tokens: 1024,
         context_window: 20,

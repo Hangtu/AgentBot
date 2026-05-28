@@ -6,6 +6,7 @@
 
 import type { LLMProvider, LLMProviderName } from "./types";
 import { GeminiProvider } from "./gemini";
+import { GroqProvider } from "./groq";
 
 // =============================================================================
 // Provider Factory
@@ -66,8 +67,7 @@ export function getLLMProvider(
       throw new Error("Anthropic provider not yet implemented. Use gemini.");
 
     case "groq":
-      // TODO: Implement Groq provider
-      throw new Error("Groq provider not yet implemented. Use gemini.");
+      return new GroqProvider(resolvedKey);
 
     default:
       throw new Error(`Unknown LLM provider: ${provider}`);

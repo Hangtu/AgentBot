@@ -47,7 +47,7 @@ export const createBotSchema = z.object({
     .min(1, "System prompt is required")
     .max(10000, "System prompt must be under 10,000 characters"),
   llm_provider: llmProviderSchema.default("gemini"),
-  llm_model: z.string().default("gemini-2.0-flash"),
+  llm_model: z.string().default("gemini-2.0-flash-lite"),
   temperature: z.number().min(0).max(2).default(0.7),
   max_tokens: z.number().min(1).max(8192).default(1024),
   context_window: z.number().min(1).max(100).default(20),

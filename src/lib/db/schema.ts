@@ -64,7 +64,7 @@ export const bots = pgTable("bots", {
   name: text("name").notNull(),
   system_prompt: text("system_prompt").notNull(),
   llm_provider: text("llm_provider").notNull().default("gemini"),
-  llm_model: text("llm_model").notNull().default("gemini-2.0-flash"),
+  llm_model: text("llm_model").notNull().default("gemini-2.0-flash-lite"),
   temperature: real("temperature").notNull().default(0.7),
   max_tokens: integer("max_tokens").notNull().default(1024),
   context_window: integer("context_window").notNull().default(20),

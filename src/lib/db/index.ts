@@ -4,12 +4,17 @@ import { drizzle } from "drizzle-orm/neon-http";
 import * as relations from "./relations";
 import * as schema from "./schema";
 
+import { NeonHttpDatabase } from "drizzle-orm/neon-http";
+
 // Use DATABASE_URL directly — serverEnv validation may be skipped in dev
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
-  throw new Error("DATABASE_URL environment variable is required.");
+  console.warn("⚠️ DATABASE_URL environment variable is not defined. Database features are disabled.");
 }
 
-const sql = neon(databaseUrl);
+const combinedSchema = { ...schema, ...relations };
 
-export const db = drizzle(sql, { schema: { ...schema, ...relations } });
+export const db = (databaseUrl
+  ? drizzle(neon(databaseUrl), { schema: combinedSchema })
+  : null) as unknown as NeonHttpDatabase<typeof combinedSchema>;
+

@@ -1,0 +1,18 @@
+{
+  "name": "Asistente de McDonald's",
+  "llm_provider": "groq",
+  "llm_model": "llama-3.3-70b-versatile",
+  "temperature": 0.7,
+  "max_tokens": 1024,
+  "context_window": 20,
+  "channels": {
+    "chatwoot": {
+      "response_mode": "direct",
+      "platform_config": {
+        "base_url": "https://app.chatwoot.com",
+        "api_token": "YOUR_CHATWOOT_API_TOKEN",
+        "account_id": "YOUR_CHATWOOT_ACCOUNT_ID"
+      }
+    }
+  }
+}

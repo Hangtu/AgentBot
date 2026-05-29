@@ -25,6 +25,7 @@ import {
   saveMessage,
 } from "./context-manager";
 import { dispatchResponse } from "./response-dispatcher";
+import { hasLocalConfig, loadLocalBotConfig } from "./config-loader";
 
 // =============================================================================
 // Agent Engine
@@ -42,6 +43,20 @@ async function resolveBot(
   responseMode: ResponseMode;
   platformConfig: Record<string, unknown>;
 } | null> {
+  // 0. Check if a local file-system configuration is present
+  if (hasLocalConfig()) {
+    const localConfig = loadLocalBotConfig();
+    if (localConfig) {
+      logger.info("Using local bot configuration from config/");
+      return localConfig;
+    }
+  }
+
+  if (!db) {
+    logger.warn("Database is not initialized. Cannot load bot from DB.");
+    return null;
+  }
+
   // 1. Try to find a bot_channel that matches this platform + inbox
   const allBotChannels = await db.query.bot_channels.findMany({
     where: and(
@@ -239,6 +254,7 @@ export async function processMessage(
  * Returns the tenant record or null if not found / inactive.
  */
 export async function findTenantByApiKey(apiKey: string) {
+  if (!db) return null;
   const tenant = await db.query.tenants.findFirst({
     where: and(eq(tenants.api_key, apiKey), eq(tenants.is_active, true)),
   });

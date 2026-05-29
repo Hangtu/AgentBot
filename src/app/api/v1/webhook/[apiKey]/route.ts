@@ -31,7 +31,18 @@ export async function POST(
   const { apiKey } = await params;
 
   // 1. Authenticate tenant by API key
-  const tenant = await findTenantByApiKey(apiKey);
+  let tenant: { id: string; name: string } | null = null;
+  const localApiKey = process.env.LOCAL_BOT_API_KEY;
+
+  if (localApiKey && apiKey === localApiKey) {
+    tenant = {
+      id: "00000000-0000-0000-0000-000000000000",
+      name: "Local Development Tenant",
+    };
+  } else {
+    tenant = await findTenantByApiKey(apiKey);
+  }
+
   if (!tenant) {
     logger.warn("Webhook: invalid API key", { apiKey: apiKey.slice(0, 8) + "..." });
     return NextResponse.json(
@@ -92,7 +103,17 @@ export async function GET(
   { params }: { params: Promise<{ apiKey: string }> }
 ) {
   const { apiKey } = await params;
-  const tenant = await findTenantByApiKey(apiKey);
+  let tenant: { id: string; name: string } | null = null;
+  const localApiKey = process.env.LOCAL_BOT_API_KEY;
+
+  if (localApiKey && apiKey === localApiKey) {
+    tenant = {
+      id: "00000000-0000-0000-0000-000000000000",
+      name: "Local Development Tenant",
+    };
+  } else {
+    tenant = await findTenantByApiKey(apiKey);
+  }
 
   if (!tenant) {
     return NextResponse.json(

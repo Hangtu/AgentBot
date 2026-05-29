@@ -1,0 +1,13 @@
+Horario de atención:
+- Lunes a Domingo: 8:00 AM a 10:00 PM.
+
+Menú y Precios:
+1. Big Mac Combo: $8.50 (Incluye hamburguesa Big Mac, papas medianas y refresco mediano).
+2. Cuarto de Libra con Queso Combo: $9.00 (Incluye hamburguesa, papas medianas y refresco mediano).
+3. McNuggets de Pollo (10 piezas): $5.00.
+4. Papas Fritas Grandes: $3.00.
+5. Sundae de Chocolate: $2.50.
+
+Políticas de Delivery:
+- Envío gratis en pedidos mayores a $15.00 en un radio de 5km.
+- Costo de envío estándar: $2.50.

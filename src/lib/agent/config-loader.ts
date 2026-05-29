@@ -75,7 +75,16 @@ export function loadLocalBotConfig(): LocalConfigResult | null {
     const channels = (agentData.channels || {}) as Record<string, unknown>;
     const chatwootConfig = (channels.chatwoot || {}) as Record<string, unknown>;
     const responseMode = (chatwootConfig.response_mode || "sync") as ResponseMode;
-    const platformConfig = (chatwootConfig.platform_config || {}) as Record<string, unknown>;
+    const platformConfig = { ...((chatwootConfig.platform_config || {}) as Record<string, unknown>) };
+
+    // Support reading sensitive platform credentials from env variables
+    for (const key in platformConfig) {
+      const val = platformConfig[key];
+      if (typeof val === "string" && val.startsWith("process.env.")) {
+        const envVarName = val.replace("process.env.", "");
+        platformConfig[key] = process.env[envVarName] || val;
+      }
+    }
 
     return {
       bot,

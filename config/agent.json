@@ -10,8 +10,8 @@
       "response_mode": "direct",
       "platform_config": {
         "base_url": "https://app.chatwoot.com",
-        "api_token": "YOUR_CHATWOOT_API_TOKEN",
-        "account_id": "YOUR_CHATWOOT_ACCOUNT_ID"
+        "api_token": "process.env.CHATWOOT_API_TOKEN",
+        "account_id": "process.env.CHATWOOT_ACCOUNT_ID"
       }
     }
   }

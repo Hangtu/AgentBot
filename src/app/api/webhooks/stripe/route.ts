@@ -28,6 +28,14 @@ export async function POST(req: Request) {
   // Dynamic import to avoid loading the Stripe client at build time
   const { stripe } = await import("@/lib/stripe");
 
+  if (!stripe) {
+    logger.error("Stripe is not configured");
+    return NextResponse.json(
+      { error: "Stripe not configured" },
+      { status: 500 }
+    );
+  }
+
   const body = await req.text();
   const headerPayload = await headers();
   const signature = headerPayload.get("stripe-signature");

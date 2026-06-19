@@ -63,6 +63,7 @@ export const bots = pgTable("bots", {
     .references(() => tenants.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   system_prompt: text("system_prompt").notNull(),
+  knowledge_base: text("knowledge_base").default(""),
   llm_provider: text("llm_provider").notNull().default("gemini"),
   llm_model: text("llm_model").notNull().default("gemini-2.0-flash-lite"),
   temperature: real("temperature").notNull().default(0.7),

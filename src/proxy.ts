@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
-import type { NextFetchEvent, NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
 import { routing } from "@/i18n/routing";
 
@@ -25,17 +25,7 @@ function hasLocalePrefix(pathname: string): boolean {
   );
 }
 
-// Clerk middleware — only runs on locale-prefixed routes
-const withClerk = clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
-
-  // Run next-intl for locale header/cookie management
-  return intlMiddleware(req);
-});
-
-export default function middleware(req: NextRequest, event: NextFetchEvent) {
+export default clerkMiddleware(async (auth, req) => {
   const { pathname } = req.nextUrl;
 
   // Skip locale processing and auth for webhook/API routes that handle their own auth
@@ -48,7 +38,10 @@ export default function middleware(req: NextRequest, event: NextFetchEvent) {
 
   // Skip locale processing for other API and monitoring routes
   if (pathname.startsWith("/api") || pathname.startsWith("/monitoring")) {
-    return withClerk(req, event);
+    if (isProtectedRoute(req)) {
+      await auth.protect();
+    }
+    return intlMiddleware(req);
   }
 
   // If the path has NO locale prefix, redirect to the default locale
@@ -60,8 +53,11 @@ export default function middleware(req: NextRequest, event: NextFetchEvent) {
   }
 
   // Path already has a locale prefix — run Clerk auth + intl middleware
-  return withClerk(req, event);
-}
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+  return intlMiddleware(req);
+});
 
 export const config = {
   matcher: [
